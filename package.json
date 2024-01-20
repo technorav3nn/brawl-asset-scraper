@@ -1,4 +1,16 @@
 {
-  "name": "bs-api",
-  "packageManager": "yarn@4.0.0-rc.51"
+	"name": "bs-api",
+	"packageManager": "yarn@4.0.2",
+	"type": "module",
+	"devDependencies": {
+		"axios": "^1.6.5",
+		"jsdom": "^23.2.0",
+		"prettier": "^3.2.4",
+		"string-similarity": "^4.0.4",
+		"wtf-plugin-api": "^2.0.0",
+		"wtf_wikipedia": "^10.3.0"
+	},
+	"volta": {
+		"node": "20.10.0"
+	}
 }

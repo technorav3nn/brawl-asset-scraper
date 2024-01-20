@@ -1,0 +1,23 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - name: Setup volta
+        uses: volta-cli/action@v4
+      - name: Install Dependencies
+        run: yarn
+      - name: Update Assets
+        run: node scripts/scrape-fandom.js
+      - name: Commit and Push if changed
+        run: |
+          git config --global user.name "Fandom Scraper"
+
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Update assets [${{ github.sha }}]"
