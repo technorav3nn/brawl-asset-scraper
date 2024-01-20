@@ -18,6 +18,5 @@ jobs:
       - name: Commit and Push if changed
         run: |
           git config --global user.name "Fandom Scraper"
-
           git add .
-          git diff-index --quiet HEAD || git commit -m "Update assets [${{ github.sha }}]"
+          git commit -m "Update assets [${{ github.sha }}]"

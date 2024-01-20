@@ -29,7 +29,7 @@ const OUT_DIR = "./.scraped-assets";
 const BRAWLERS_DIR = "/brawlers/";
 const GADGETS_DIR = "/gadgets/";
 const STARPOWERS_DIR = "/starpowers/";
-const HYPERCHARGE_DIR = STARPOWERS_DIR;
+const HYPERCHARGE_DIR = "/hypercharges/";
 
 const opts = {
 	downloadPins: false,
@@ -242,10 +242,13 @@ async function main() {
 	}
 
 	function getAccessoryURLFromIndex(links, kind, brawlerName, index) {
-		const short = kind == "gadgets" ? "gd" : "sp";
-		return links.find((link) =>
-			link.toLowerCase().includes(`${short}-${brawlerName.toLowerCase()}${index + 1}`)
-		);
+		const short = kind == "gadgets" ? "gd" : kind === "starpowers" ? "sp" : "Hypercharge";
+		console.log(links.filter((l) => l.toLowerCase().includes("hypercharge")));
+		if (kind !== "hypercharge")
+			return links.find((link) =>
+				link.toLowerCase().includes(`${short}-${brawlerName.toLowerCase()}${index + 1}`)
+			);
+		else return links.find((link) => link.toLowerCase().includes(`${brawlerName.toLowerCase()}-hypercharge`));
 	}
 
 	function getAllLinksFromDoc(brawlerDoc) {
@@ -517,15 +520,23 @@ async function main() {
 				const id = getIdFromStarpowerName(name);
 				const link = getAccessoryURLFromIndex(brawlerDocLinks, "starpowers", brawler.name, starpowerCounter);
 				const path = STARPOWERS_DIR + id + ".png";
-				console.log(id);
 
 				if (name.includes("Hypercharge")) {
-					console.log("hc: ", id);
+					const newLink = getAccessoryURLFromIndex(
+						brawlerDocLinks,
+						"hypercharge",
+						brawler.name,
+						starpowerCounter
+					);
+					console.log(newLink);
 					brawler["hypercharge"].push({
 						name: name.replaceAll("Hypercharge: ", "").trim(),
 						description,
-						id,
-						path: encodePath(`${HYPERCHARGE_DIR}${id}.png`),
+						path: encodePath(`${HYPERCHARGE_DIR}${name.replaceAll("Hypercharge: ", "").trim()}.png`),
+					});
+					downloadQueue.push({
+						link: newLink,
+						path: `${HYPERCHARGE_DIR}${name.replaceAll("Hypercharge: ", "").trim()}.png`,
 					});
 					continue;
 				}
