@@ -16,6 +16,8 @@ jobs:
         run: yarn
       - name: Update Assets
         run: node scripts/scrape-fandom.js
+      - name: Force a commit
+        run: touch test.txt && echo "test" >> test.txt
       - name: Commit and Push if changed
         uses: EndBug/add-and-commit@v9
         with:
