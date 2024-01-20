@@ -243,7 +243,6 @@ async function main() {
 
 	function getAccessoryURLFromIndex(links, kind, brawlerName, index) {
 		const short = kind == "gadgets" ? "gd" : kind === "starpowers" ? "sp" : "Hypercharge";
-		console.log(links.filter((l) => l.toLowerCase().includes("hypercharge")));
 		if (kind !== "hypercharge")
 			return links.find((link) =>
 				link.toLowerCase().includes(`${short}-${brawlerName.toLowerCase()}${index + 1}`)
@@ -528,7 +527,6 @@ async function main() {
 						brawler.name,
 						starpowerCounter
 					);
-					console.log(newLink);
 					brawler["hypercharge"].push({
 						name: name.replaceAll("Hypercharge: ", "").trim(),
 						description,
